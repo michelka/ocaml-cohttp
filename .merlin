@@ -32,5 +32,6 @@ PKG magic-mime
 PKG oUnit
 PKG alcotest
 PKG compiler-libs.toplevel
+PKG fmt.tty
 
 B _build/**
