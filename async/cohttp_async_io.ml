@@ -17,6 +17,9 @@
 open Core.Std
 open Async.Std
 
+let src = Logs.Src.create "cohttp.async" ~doc:"Cohttp Async IO module"
+module Log = (val Logs.src_log src : Logs.LOG)
+
 let check_debug norm_fn debug_fn =
   match Sys.getenv "COHTTP_DEBUG" with
   | Some _ -> debug_fn
@@ -41,8 +44,8 @@ let read_line =
     (fun ic ->
        Reader.read_line ic
        >>| function
-       | `Ok s -> eprintf "<<< %s\n" s; Some s
-       | `Eof -> eprintf "<<<EOF\n"; None
+       | `Ok s -> Log.debug (fun fmt -> fmt "<<< %s" s); Some s
+       | `Eof -> Log.debug (fun fmt -> fmt "<<<EOF"); None
     )
 
 let read ic len =
@@ -57,7 +60,8 @@ let write =
        Writer.write oc buf;
        return ())
     (fun oc buf ->
-       eprintf "\n%4d >>> %s" (Pid.to_int (Unix.getpid ())) buf;
+       Log.debug
+         (fun fmt -> fmt "%4d >>> %s" (Pid.to_int (Unix.getpid ())) buf);
        Writer.write oc buf;
        return ())
 

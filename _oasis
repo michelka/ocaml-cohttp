@@ -116,7 +116,8 @@ Library cohttp_async
   Findlibname:   async
   FindlibParent: cohttp
   BuildDepends:  uri, uri.services, cohttp, threads, async,
-                 conduit.async (>= 0.7.0), magic-mime
+                 conduit.async (>= 0.7.0), magic-mime, logs,
+                 logs.fmt, fmt.tty
   Modules:       Cohttp_async_io, Cohttp_async
 
 Library cohttp_lwt_unix_test
@@ -134,7 +135,7 @@ Library cohttp_async_test
   Path:          cohttp_async_test
   Findlibname:   async-test
   FindlibParent: cohttp
-  BuildDepends:  cohttp.test, cohttp.async, oUnit
+  BuildDepends:  cohttp.test, cohttp.async, oUnit, logs
   Modules:       Cohttp_async_test
 
 Document cohttp
@@ -333,7 +334,7 @@ Executable "cohttp-curl-async"
   Custom:             true
   CompiledObject:     best
   Install:            false
-  BuildDepends:       cohttp, cohttp.async
+  BuildDepends:       cohttp, cohttp.async, logs, logs.fmt
 
 Executable "cohttp-server-lwt"
   Path:               bin
